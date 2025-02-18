@@ -9,13 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable(); // Confirmação de e-mail
             $table->string('password');
+            $table->rememberToken(); // Token para "Lembrar-me"
             $table->enum('role', ['admin', 'cliente'])->default('cliente');
             $table->timestamps();
         });

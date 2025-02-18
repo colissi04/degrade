@@ -1,22 +1,9 @@
 import * as React from "react";
-import { useForm } from "react-hook-form";
+import { useForm } from "@inertiajs/react";
 
-import {
-    Form,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormControl,
-    FormMessage,
-} from "@/components/ui/form";
-
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import { Label } from "@/Components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/Components/ui/checkbox";
+import { Checkbox } from "@/components/ui/checkbox";
 
 import {
     Carousel,
@@ -24,14 +11,8 @@ import {
     CarouselItem,
     CarouselNext,
     CarouselPrevious,
-} from "@/Components/ui/carousel";
+} from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-
-const loginSchema = z.object({
-    email: z.string().email("Informe um e-mail válido."),
-    password: z.string(),
-    remember: z.boolean(),
-});
 
 export default function Login() {
     const autoplayPlugin = React.useRef(
@@ -57,29 +38,31 @@ export default function Login() {
         },
     ];
 
-    const form = useForm({
-        resolver: zodResolver(loginSchema),
-        defaultValues: {
-            email: "",
-            password: "",
-        },
+    // Configuração correta do useForm do Inertia
+    const { data, setData, post, processing, errors, reset } = useForm({
+        email: "",
+        password: "",
+        remember: false,
     });
 
-    function onSubmit(values) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values);
-    }
+    // Submissão do formulário
+    const submit = (e) => {
+        e.preventDefault();
+
+        post(route("login"), {
+            onFinish: () => reset("password"),
+        });
+    };
 
     return (
         <main className="flex min-h-screen overflow-hidden">
             {/* ESQUERDA: Área de Login */}
-            <section 
+            <section
                 className="flex w-1/2 flex-col justify-center items-center px-8 bg-cover bg-center"
                 style={{
-                    backgroundImage: `url('${window.location.origin}/images/login-background.jpg')`
+                    backgroundImage: `url('${window.location.origin}/images/login-background.jpg')`,
                 }}
-                >
+            >
                 <header className="flex flex-col justify-center self-center mb-10 w-2/5">
                     <div className="text-center mb-4">
                         <h1 className="font-semibold text-3xl">degradê</h1>
@@ -99,84 +82,77 @@ export default function Login() {
 
                 <article className="flex flex-col justify-center self-center w-2/5">
                     {/* Formulário de E-mail e Senha */}
-                    <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)}>
-                            <FormField
-                                control={form.control}
-                                name="email"
-                                render={({ field }) => (
-                                    <FormItem className="mb-2">
-                                        <FormLabel>Email</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="Digite seu email"
-                                                className="border-zinc-950 placeholder:text-zinc-700"
-                                                type="email"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                    <form onSubmit={submit} className="w-full">
+                        <div className="mb-2">
+                            <label className="block text-sm font-medium">
+                                Email
+                            </label>
+                            <Input
+                                placeholder="Digite seu email"
+                                type="email"
+                                value={data.email}
+                                onChange={(e) =>
+                                    setData("email", e.target.value)
+                                }
+                                className="border-zinc-950 placeholder:text-zinc-700"
+                                required
                             />
+                            {errors.email && (
+                                <p className="text-red-500 text-sm mt-1">
+                                    {errors.email}
+                                </p>
+                            )}
+                        </div>
 
-                            <FormField
-                                control={form.control}
-                                name="password"
-                                render={({ field }) => (
-                                    <FormItem className="mb-2">
-                                        <FormLabel>Senha</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="Digite sua senha"
-                                                className="border-zinc-950 placeholder:text-zinc-700"
-                                                type="password"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                        <div className="mb-2">
+                            <label className="block text-sm font-medium">
+                                Senha
+                            </label>
+                            <Input
+                                placeholder="Digite sua senha"
+                                type="password"
+                                value={data.password}
+                                onChange={(e) =>
+                                    setData("password", e.target.value)
+                                }
+                                className="border-zinc-950 placeholder:text-zinc-700"
+                                required
                             />
+                            {errors.password && (
+                                <p className="text-red-500 text-sm mt-1">
+                                    {errors.password}
+                                </p>
+                            )}
+                        </div>
 
-                            <div className="flex justify-between items-center mb-4">
-                                <FormField
-                                    control={form.control}
-                                    name="remember"
-                                    render={({ field }) => (
-                                        <FormItem className="flex gap-2 items-center">
-                                            <FormControl>
-                                                <Checkbox
-                                                    checked={field.value}
-                                                    onCheckedChange={
-                                                        field.onChange
-                                                    }
-                                                />
-                                            </FormControl>
-                                            <FormLabel className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 !m-0">
-                                                Lembrar-me
-                                            </FormLabel>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                        <div className="flex justify-between items-center mb-4">
+                            <div className="flex gap-2 items-center">
+                                <Checkbox
+                                    checked={data.remember === "on"}
+                                    onCheckedChange={(checked) => setData("remember", checked ? "on" : null)}
                                 />
-                                <a className="text-sm font-semibold" href="">
-                                    Esqueceu a senha?
-                                </a>
+                                <label className="text-xs font-medium leading-none">
+                                    Lembrar-me
+                                </label>
                             </div>
+                            <a className="text-sm font-semibold" href="">
+                                Esqueceu a senha?
+                            </a>
+                        </div>
 
-                            {/* Botão de Login */}
-                            <Button
-                                type="submit"
-                                variant="default"
-                                className="bg-zinc-950 w-full"
-                            >
-                                Entrar
-                            </Button>
-                        </form>
-                    </Form>
+                        {/* Botão de Login */}
+                        <Button
+                            type="submit"
+                            variant="default"
+                            className="bg-zinc-950 w-full"
+                            disabled={processing}
+                        >
+                            {processing ? "Entrando..." : "Entrar"}
+                        </Button>
+                    </form>
                 </article>
             </section>
+
             {/* DIREITA: Imagem */}
             <section
                 className="relative w-1/2 overflow-hidden"
