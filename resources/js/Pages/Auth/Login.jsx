@@ -201,7 +201,7 @@ export default function Login() {
                                 {/* Texto */}
                                 <div className="absolute inset-0 flex justify-center items-start pt-10">
                                     <div className="max-w-screen px-10 text-center uppercase italic text-white p-4 rounded-md">
-                                        <p className="text-xl font-semibold">
+                                        <p className="text-xl font-semibold select-none">
                                             {slide.text}
                                         </p>
                                     </div>
