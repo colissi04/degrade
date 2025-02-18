@@ -8,7 +8,6 @@ import {
     FormLabel,
     FormControl,
     FormMessage,
-    FormDescription,
 } from "@/components/ui/form";
 
 import { z } from "zod";
@@ -17,9 +16,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@/Components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/Components/ui/checkbox";
 
 const loginSchema = z.object({
     email: z.string().email("Informe um e-mail válido."),
+    password: z.string(),
+    remember: z.boolean(),
 });
 
 export default function Login() {
@@ -58,7 +60,8 @@ export default function Login() {
                     </div>
                 </header>
 
-                <content className="flex flex-col justify-center self-center w-2/5">
+                <article className="flex flex-col justify-center self-center w-2/5">
+                    {/* Formulário de E-mail e Senha */}
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)}>
                             <FormField
@@ -97,6 +100,24 @@ export default function Login() {
                                 )}
                             />
 
+                            <div className="flex justify-between items-center mb-4">
+                            <FormField
+                                control={form.control}
+                                name="remember"
+                                render={({ field }) => (
+                                        <FormItem className="flex gap-2 items-center">
+                                            <FormControl>
+                                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                                            </FormControl>
+                                            <FormLabel className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 !m-0" >Lembrar-me</FormLabel>
+                                            <FormMessage />
+                                        </FormItem>
+                                )}
+                            />
+                            <a className="text-sm font-semibold" href="">Esqueceu a senha?</a>
+                            </div>  
+
+                            {/* Botão de Login */}
                             <Button
                                 type="submit"
                                 variant="default"
@@ -106,7 +127,7 @@ export default function Login() {
                             </Button>
                         </form>
                     </Form>
-                </content>
+                </article>
             </section>
             {/* DIREITA: Imagem */}
             <section className="relative w-1/2  bg-black"></section>
