@@ -74,7 +74,12 @@ export default function Login() {
     return (
         <main className="flex min-h-screen overflow-hidden">
             {/* ESQUERDA: Área de Login */}
-            <section className="flex w-1/2 flex-col justify-center self-center px-8">
+            <section 
+                className="flex w-1/2 flex-col justify-center items-center px-8 bg-cover bg-center"
+                style={{
+                    backgroundImage: `url('${window.location.origin}/images/login-background.jpg')`
+                }}
+                >
                 <header className="flex flex-col justify-center self-center mb-10 w-2/5">
                     <div className="text-center mb-4">
                         <h1 className="font-semibold text-3xl">degradê</h1>
@@ -105,7 +110,8 @@ export default function Login() {
                                         <FormControl>
                                             <Input
                                                 placeholder="Digite seu email"
-                                                className=""
+                                                className="border-zinc-950 placeholder:text-zinc-700"
+                                                type="email"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -123,6 +129,7 @@ export default function Login() {
                                         <FormControl>
                                             <Input
                                                 placeholder="Digite sua senha"
+                                                className="border-zinc-950 placeholder:text-zinc-700"
                                                 type="password"
                                                 {...field}
                                             />
