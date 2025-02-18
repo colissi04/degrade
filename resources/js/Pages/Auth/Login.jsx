@@ -38,11 +38,23 @@ export default function Login() {
         Autoplay({ delay: 10000, stopOnInteraction: true })
     );
 
-    const images = [
-        `${window.location.origin}/images/barber1.jpg`,
-        `${window.location.origin}/images/barber2.jpg`,
-        `${window.location.origin}/images/barber3.jpg`,
-        `${window.location.origin}/images/barber4.jpg`,
+    const slides = [
+        {
+            src: `${window.location.origin}/images/barber1.jpg`,
+            text: "Lembretes automáticos para seus clientes nunca mais esquecerem um corte",
+        },
+        {
+            src: `${window.location.origin}/images/barber2.jpg`,
+            text: "Organização e praticidade para sua barbearia crescer sem estresse",
+        },
+        {
+            src: `${window.location.origin}/images/barber3.jpg`,
+            text: "Transforme sua barbearia em referência, garantindo praticidade e satisfação para seus clientes",
+        },
+        {
+            src: `${window.location.origin}/images/barber4.jpg`,
+            text: "Economize tempo e aumente lucros com uma plataforma de agendamento simples e eficaz",
+        },
     ];
 
     const form = useForm({
@@ -171,20 +183,29 @@ export default function Login() {
                     onMouseLeave={autoplayPlugin.current.reset}
                 >
                     <CarouselContent>
-                        {images.map((src, index) => (
+                        {slides.map((slide, index) => (
                             <CarouselItem key={index} className="relative">
+                                {/* Imagem */}
                                 <img
-                                    src={src}
+                                    src={slide.src}
                                     alt={`Imagem ${index + 1}`}
                                     className="w-full h-screen object-cover"
                                 />
+                                {/* Texto */}
+                                <div className="absolute inset-0 flex justify-center items-start pt-10">
+                                    <div className="max-w-screen px-10 text-center uppercase italic text-white p-4 rounded-md">
+                                        <p className="text-xl font-semibold">
+                                            {slide.text}
+                                        </p>
+                                    </div>
+                                </div>
                             </CarouselItem>
                         ))}
                     </CarouselContent>
                     {/* Botão para voltar slide */}
                     <CarouselPrevious className="absolute ml-20 border-none" />
                     {/* Botão de Próximo */}
-                    <CarouselNext className="absolute mr-20 border-none"/>
+                    <CarouselNext className="absolute mr-20 border-none" />
                 </Carousel>
             </section>
         </main>
