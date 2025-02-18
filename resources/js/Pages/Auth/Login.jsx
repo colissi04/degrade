@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { useForm } from "react-hook-form";
 
 import {
@@ -18,6 +18,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/Components/ui/checkbox";
 
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/Components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+
 const loginSchema = z.object({
     email: z.string().email("Informe um e-mail válido."),
     password: z.string(),
@@ -25,6 +34,17 @@ const loginSchema = z.object({
 });
 
 export default function Login() {
+    const autoplayPlugin = React.useRef(
+        Autoplay({ delay: 10000, stopOnInteraction: true })
+    );
+
+    const images = [
+        `${window.location.origin}/images/barber1.jpg`,
+        `${window.location.origin}/images/barber2.jpg`,
+        `${window.location.origin}/images/barber3.jpg`,
+        `${window.location.origin}/images/barber4.jpg`,
+    ];
+
     const form = useForm({
         resolver: zodResolver(loginSchema),
         defaultValues: {
@@ -40,7 +60,7 @@ export default function Login() {
     }
 
     return (
-        <main className="flex min-h-screen">
+        <main className="flex min-h-screen overflow-hidden">
             {/* ESQUERDA: Área de Login */}
             <section className="flex w-1/2 flex-col justify-center self-center px-8">
                 <header className="flex flex-col justify-center self-center mb-10 w-2/5">
@@ -101,21 +121,30 @@ export default function Login() {
                             />
 
                             <div className="flex justify-between items-center mb-4">
-                            <FormField
-                                control={form.control}
-                                name="remember"
-                                render={({ field }) => (
+                                <FormField
+                                    control={form.control}
+                                    name="remember"
+                                    render={({ field }) => (
                                         <FormItem className="flex gap-2 items-center">
                                             <FormControl>
-                                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                                                <Checkbox
+                                                    checked={field.value}
+                                                    onCheckedChange={
+                                                        field.onChange
+                                                    }
+                                                />
                                             </FormControl>
-                                            <FormLabel className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 !m-0" >Lembrar-me</FormLabel>
+                                            <FormLabel className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 !m-0">
+                                                Lembrar-me
+                                            </FormLabel>
                                             <FormMessage />
                                         </FormItem>
-                                )}
-                            />
-                            <a className="text-sm font-semibold" href="">Esqueceu a senha?</a>
-                            </div>  
+                                    )}
+                                />
+                                <a className="text-sm font-semibold" href="">
+                                    Esqueceu a senha?
+                                </a>
+                            </div>
 
                             {/* Botão de Login */}
                             <Button
@@ -130,7 +159,34 @@ export default function Login() {
                 </article>
             </section>
             {/* DIREITA: Imagem */}
-            <section className="relative w-1/2  bg-black"></section>
+            <section
+                className="relative w-1/2 overflow-hidden"
+                data-carousel="slide"
+            >
+                {/* Carrousel */}
+                <Carousel
+                    plugins={[autoplayPlugin.current]}
+                    className="w-full h-full"
+                    onMouseEnter={autoplayPlugin.current.stop}
+                    onMouseLeave={autoplayPlugin.current.reset}
+                >
+                    <CarouselContent>
+                        {images.map((src, index) => (
+                            <CarouselItem key={index} className="relative">
+                                <img
+                                    src={src}
+                                    alt={`Imagem ${index + 1}`}
+                                    className="w-full h-screen object-cover"
+                                />
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                    {/* Botão para voltar slide */}
+                    <CarouselPrevious className="absolute ml-20 border-none" />
+                    {/* Botão de Próximo */}
+                    <CarouselNext className="absolute mr-20 border-none"/>
+                </Carousel>
+            </section>
         </main>
     );
 }
