@@ -71,8 +71,8 @@ export default function Login() {
                         </h3>
                     </div>
                     <div className="flex flex-row justify-center self-center gap-2">
-                        <Button variant="outline" className="w-40">
-                            Cadastrar
+                        <Button variant="outline" className="w-40" >
+                            <a href="/register">Cadastrar</a>
                         </Button>
                         <Button variant="default" className="w-40">
                             Entrar
