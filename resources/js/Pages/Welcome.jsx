@@ -1,12 +1,13 @@
 import { Link, Head } from "@inertiajs/react";
 import FloatEffect from "../Components/FloatEffect";
+import "../../css/ScrollDown/ScrollDown.css";
 
 export default function Welcome() {
     return (
         <>
             <Head title="Welcome" />
-            <div className="flex justify-center">
-                <nav className="flex w-full fixed top-0 justify-between items-center px-80 py-4 bg-transparent backdrop-blur-md z-50">
+            <div className="flex flex-col justify-center">
+                <nav id="navbar" className="flex w-full fixed top-0 justify-between items-center px-80 py-4 bg-transparent backdrop-blur-md z-50">
                     <a href="/">
                         <img
                             src={`${window.location.origin}/images/logo.png`}
@@ -67,7 +68,7 @@ export default function Welcome() {
                     </div>
                 </nav>
 
-                <section className="relative w-full h-screen bg-black text-white">
+                <section id="#main" className="relative w-full h-screen bg-black text-white">
                     <FloatEffect />
                     {/* overlay para escurecer*/}
                     /*<div className="absolute inset-0 bg-black/20"></div>*/
@@ -81,7 +82,19 @@ export default function Welcome() {
                             Possuímos dashboards, relatórios, cadastro de
                             serviços e muito mais.
                         </h2>
-                        <div>⭣</div>
+                        {/* Scroll Down */}
+                        <div class="container_mouse">
+                            <span class="mouse-btn">
+                                <span class="mouse-scroll"></span>
+                            </span>
+                            <span class="text-scroll">Deslize</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="#about">
+                    <div className="h-screen w-full bg-red-100">
+                        <h1>teste</h1>  
                     </div>
                 </section>
             </div>
