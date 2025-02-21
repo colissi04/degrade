@@ -1,31 +1,13 @@
 import * as React from "react";
 import { Link, Head } from "@inertiajs/react";
 
-import Autoplay from "embla-carousel-autoplay";
-
 import FloatEffect from "../Components/FloatEffect";
 
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-} from "@/Components/ui/carousel";
-
-import {Card, CardContent} from "../Components/ui/card";
-
 import "../../css/ScrollDown/ScrollDown.css";
+import { EmblaCarousel } from "@/Components/ui/emblaCarousel";
+
 
 export default function Welcome() {
-    const plugin = React.useRef(
-        Autoplay({ delay: 2000, stopOnInteraction: true })
-    );
-    const arrayTeste = [
-        { src: "", title: "teste", text: "blablablabla" },
-        { src: "", title: "teste2", text: "bwewewewewew" },
-        { src: "", title: "teste3", text: "dskdiejifowe" },
-    ];
     return (
         <>
             <Head title="Welcome" />
@@ -151,85 +133,18 @@ export default function Welcome() {
                             </div>
                         </div>
                     </div>
-
-                    {/* Segunda seção do about */}
-                    <div className="h-screen w-full flex flex-col items-center pt-28">
-                        <h2 className="text-white text-6xl">Sobre nós</h2>
-                        <div className="flex w-full h-full px-80 justify-between ">
-                            <div className="w-full flex justify-center items-center bg-contain">
-                                <img
-                                    src={`${window.location.origin}/images/about.png`}
-                                />
-                            </div>
-                            <div className="w-full flex justify-center items-center text-end">
-                                <span className="text-5xl text-zinc-400">
-                                    Lorem, ipsum dolor sit amet consectetur
-                                    adipisicing elit. Libero illo pariatur ullam
-                                    culpa repellendus. Libero illo pariatur
-                                    ullam culpa repellendus. Libero illo
-                                    pariatur ullam culpa repellendus. Libero
-                                    illo pariatur ullam culpa repellendus.
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    {/* Terceira seção do about */}
-                    <div className="h-screen w-full flex flex-col items-center pt-28">
-                        <h2 className="text-white text-6xl">Sobre nós</h2>
-                        <div className="flex w-full h-full px-80 justify-between ">
-                            <div className="w-full flex justify-center items-center text-start">
-                                <span className="text-5xl text-zinc-400">
-                                    Lorem, ipsum dolor sit amet consectetur
-                                    adipisicing elit. Libero illo pariatur ullam
-                                    culpa repellendus. Libero illo pariatur
-                                    ullam culpa repellendus. Libero illo
-                                    pariatur ullam culpa repellendus. Libero
-                                    illo pariatur ullam culpa repellendus.
-                                </span>
-                            </div>
-                            <div className="w-full flex justify-center items-center bg-contain">
-                                <img
-                                    src={`${window.location.origin}/images/about.png`}
-                                />
-                            </div>
-                        </div>
-                    </div>
                 </section>
 
                 <section
                     id="features"
-                    className="bg-red-100 h-screen flex flex-col items-center justify-center"
+                    className="bg-red-900 h-screen flex flex-col items-center justify-center"
                 >
                     {/* Título centralizado */}
-                    <h2 className="text-2xl font-bold mb-6">Recursos</h2>
+                    <h2 className="text-white text-6xl">Recursos</h2>
 
                     {/* Container que envolve o carrossel */}
-                    <div className="bg-blue-300 w-full max-w-xl flex justify-center p-4">
-                        <Carousel
-                            plugins={[plugin.current]}
-                            className="bg-pink-500"
-                            onMouseEnter={plugin.current.stop}
-                            onMouseLeave={plugin.current.reset}
-                        >
-                            <CarouselContent>
-                                {arrayTeste.map((item, index) => (
-                                    <CarouselItem
-                                        key={index}
-                                        className="bg-emerald-400"
-                                    >
-                                        <div className="p-1">
-                                            <Card>
-                                                <CardContent>
-                                                    <span>{item.title}</span>
-                                                </CardContent>
-                                            </Card>
-                                        </div>
-                                    </CarouselItem>
-                                ))}
-                            </CarouselContent>
-                            <CarouselPrevious />
-                            <CarouselNext />
-                        </Carousel>
+                    <div className="bg-blue-300 w-full">
+                        <EmblaCarousel />
                     </div>
                 </section>
             </div>
